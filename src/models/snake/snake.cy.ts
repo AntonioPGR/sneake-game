@@ -7,7 +7,7 @@ describe("Snake Model", () => {
   const createSneak = () => {
     const step: number = 1
     const direction: TDirections = 'right'
-    const start_position: TPosition[] = [{
+    const start_position: TAxles[] = [{
       x: 5,
       y: 5
     }]

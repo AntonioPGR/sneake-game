@@ -1,4 +1,4 @@
-declare type TPosition = {
+declare type TAxles = {
   x: number,
   y: number
 }

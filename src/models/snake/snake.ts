@@ -1,7 +1,7 @@
 import { Apple } from "models/apple/apple"
 
 export class Snake{
-  private position: TPosition[] = [{ x: 0, y: 0 }]
+  private position: TAxles[] = [{ x: 0, y: 0 }]
   private size: number = 1
   private direction: TDirections = 'up'
   private step: number = 1
@@ -105,7 +105,7 @@ export class Snake{
   }
 
   // SETTERS
-  private setposition(new_coordinate: TPosition[]) {
+  private setposition(new_coordinate: TAxles[]) {
     this.position = new_coordinate
   }
 
