@@ -5,7 +5,7 @@ export class GameBoard{
   private canvas_size: TAxles;
   private canvas : HTMLCanvasElement
 
-  constructor({ canvas, canvas_avaible_size_in_px, squares_schemas }: PropsGameBoard) {
+  constructor({ canvas, canvas_avaible_size: canvas_avaible_size_in_px, squares_schemas }: PropsGameBoard) {
     this.squares_schemas = squares_schemas;
     this.canvas = canvas
     this.squares_size = this.calculateSquaresSize(canvas_avaible_size_in_px)
@@ -43,11 +43,11 @@ export class GameBoard{
     }
   }
 
-  public isOutside(square_positon: TAxles):Boolean{
-    if (square_positon.x < 0 || square_positon.x > this.squares_schemas.x) {
+  public isOutside(positon: TAxles):Boolean{
+    if (positon.x < 0 || positon.x > this.canvas_size.x) {
       return true
     }
-    if (square_positon.y < 0 || square_positon.y > this.squares_schemas.y) {
+    if (positon.y < 0 || positon.y > this.canvas_size.y) {
       return true
     }
     return false

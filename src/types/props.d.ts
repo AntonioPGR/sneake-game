@@ -7,11 +7,20 @@ declare interface PropsSnake{
 declare interface PropsApple{
   table_size: TBoardSize,
   position?: TAxles,
-  invalid_start_positions?: TAxles[]
+  invalid_start_positions?: TAxles[],
+  square_size: number
 }
 
 declare interface PropsGameBoard{
   canvas: HTMLCanvasElement,
-  canvas_avaible_size_in_px: TAxles,
+  canvas_avaible_size: TAxles,
   squares_schemas: TAxles
+}
+
+declare interface PropsGameController{
+  canvas_id: string
+}
+
+declare interface PropsCanvasDrawer{
+  canvas: HTMLCanvasElement
 }

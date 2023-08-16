@@ -16,20 +16,29 @@ export class Snake{
   }
 
   // STATUS
-  public isDead() {
-    
+  public isDead(max_position?:TAxles) {
     const head_position = this.getHeadPosition()
     const position = this.getFullposition()
 
-    const equal_position = position.filter((value) => value.x === head_position.x && value.y === head_position.y)
-    if (equal_position.length > 0) {
+    if (position.length > 1) {
+      const equal_position = position.filter((value) => value.x === head_position.x && value.y === head_position.y)
+      console.log(equal_position)
+      if (equal_position.length > 1) {
+        return true
+      }
+    }
+
+    if (head_position.x < 0 || head_position.y < 0) {
+      return true
+    }
+    if (max_position && (head_position.x > max_position.x || head_position.y > max_position.y)) {
       return true
     }
     return false
   }
 
   public isEatable(apple: Apple) {
-    const apple_position = apple.getPosition()
+    const apple_position = apple.getPositionInPx()
     const head_snake_position = this.getHeadPosition()
     if (apple_position.x === head_snake_position.x && apple_position.y === head_snake_position.y) {
       return true
@@ -37,8 +46,6 @@ export class Snake{
     return false
   }
 
-  
-  // ACTIONS
   public tryToEat(apple: Apple) {
     if (!this.isEatable(apple)) {
       return false
@@ -52,7 +59,7 @@ export class Snake{
     const calculated_position = this.calculateNewPosition()
     const new_position = [calculated_position, ...this.getFullposition()]
     while (new_position.length > this.size) {
-      new_position.pop();
+      new_position.pop()
     }
     this.setposition(new_position)
   }
@@ -61,19 +68,22 @@ export class Snake{
     const head_position = this.getHeadPosition()
     const direction = this.getDirection()
     const step = this.getStep()
-    let new_position = head_position;
+    let new_position = {
+      y: head_position.y,
+      x: head_position.x
+    };
     switch (direction) {
       case 'up':
-        new_position.y += step;
+        new_position!.y = head_position.y - step;
         break;
       case "down":
-        new_position.y -= step;
+        new_position!.y = head_position.y + step;
         break;
       case "left":
-        new_position.x -= step
+        new_position!.x = head_position.x - step;
         break;
       case "right":
-        new_position.x += step
+        new_position!.x = head_position.x + step;
         break;
     }
     return new_position
@@ -97,7 +107,8 @@ export class Snake{
   }
 
   public getHeadPosition() {
-    return this.position[0]
+    const full = this.getFullposition()
+    return full[0]
   }
   
   public getFullposition() {

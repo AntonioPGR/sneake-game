@@ -13,7 +13,10 @@ export const Board = () => {
 
   return (
     <>
-      <canvas data-cy="board" id={canvas_id}></canvas>
+      <canvas
+        data-cy="board"
+        style={{ background: '#eec5b7' }}
+        id={canvas_id}></canvas>
       <button onClick={() => game_controller?.startGame()}>Inicar jogo</button>
     </>
   );

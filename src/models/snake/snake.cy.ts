@@ -104,6 +104,7 @@ describe("Snake Model", () => {
         max_y: 2,
         min_y: 0
       },
+      square_size: 1
     })
     snake.move()
     expect(snake.isEatable(apple)).to.be.true
@@ -121,6 +122,7 @@ describe("Snake Model", () => {
         max_y: 2,
         min_y: 0
       },
+      square_size: 1
     })
     expect(snake.isEatable(apple)).to.not.be.true
   })

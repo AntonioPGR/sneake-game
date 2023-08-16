@@ -1,11 +1,13 @@
 export class Apple{
   private position: TAxles = {x:0, y:0}
-  private table_size: TBoardSize = {max_x: 1, min_x:0, max_y:0, min_y:0}
+  private table_size: TBoardSize = { max_x: 1, min_x: 0, max_y: 0, min_y: 0 }
+  private square_size: number
   
-  constructor({table_size, position, invalid_start_positions}:PropsApple) {
+  constructor({table_size, position, invalid_start_positions, square_size}:PropsApple) {
     this.setTableSize(table_size)
     if (position) { this.setPosition(position) }
-    else {this.raffleNewPosition(invalid_start_positions)}
+    else { this.raffleNewPosition(invalid_start_positions) }
+    this.square_size = square_size
   }
 
   // ACTIONS
@@ -16,6 +18,13 @@ export class Apple{
       new_position = this.generateNewPosition()
     } while(!this.isPositionValid(new_position, invalid_positions))
     this.setPosition(new_position)
+  }
+
+  public getPositionInPx(): TAxles {
+    return {
+      x: this.getPosition().x * this.square_size,
+      y: this.getPosition().y * this.square_size
+    }
   }
 
   private generateNewPosition() {

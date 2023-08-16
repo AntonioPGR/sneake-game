@@ -7,11 +7,11 @@ describe("Apple model", () => {
       min_x: 0,
       max_y: 500,
       min_y: 0
-    }
+    },
+    square_size: 1
   })
   
   it("Should appear in a valid square", () => {
-    console.log("Apple")
     const apple = createApple()
     const apple_position = apple.getPosition()
 
@@ -28,7 +28,8 @@ describe("Apple model", () => {
         min_x: 0,
         max_y: 2,
         min_y: 0
-      }
+      },
+      square_size: 1
     })
     const position_1 = apple.getPosition()
     apple.raffleNewPosition([])
@@ -45,7 +46,8 @@ describe("Apple model", () => {
         max_y: 3,
         min_y: 0
       },
-      invalid_start_positions: [{x:0, y:0}]
+      invalid_start_positions: [{x:0, y:0}],
+      square_size: 1
     })
     const position_1 = apple.getPosition()
     expect(position_1.y).to.not.be.equal(0)

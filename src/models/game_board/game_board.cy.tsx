@@ -8,7 +8,7 @@ describe('Board model', () => {
   const createGameBoard = () => {
     return new GameBoard({
       canvas: getCanvas(),
-      canvas_avaible_size_in_px: {
+      canvas_avaible_size: {
         x: 288,
         y: 312,
       },
@@ -57,7 +57,7 @@ describe('Board model', () => {
     const gameboard = createGameBoard();
     expect(
       gameboard.isOutside({
-        x: 13,
+        x: 289,
         y: 12,
       }),
     ).to.be.true;
