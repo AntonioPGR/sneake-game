@@ -20,7 +20,7 @@ export class GameController{
     }
     this.canvas = canvas
     this.gameboard = new GameBoard({ canvas: this.canvas, canvas_avaible_size: { x: 450, y: 450 }, squares_schemas: {x:canvas_size, y:canvas_size} })
-    this.canvas_drawer = new CanvasDrawer({canvas})
+    this.canvas_drawer = new CanvasDrawer(canvas)
     this.sneak = new Snake({
       direction: 'up',
       start_position: [this.gameboard.convertSquareToPixel({ x: 0, y: canvas_size })],
@@ -28,10 +28,10 @@ export class GameController{
     })
     this.apple = new Apple({
       table_size: {
-        max_x: canvas_size,
-        max_y: canvas_size,
-        min_x: 0,
-        min_y: 0
+        max_width: canvas_size,
+        max_height: canvas_size,
+        min_width: 0,
+        min_height: 0
       },
       invalid_start_positions: this.sneak.getFullposition(),
       square_size: this.gameboard.getSquaresSize()
@@ -78,41 +78,18 @@ export class GameController{
 
   // RENDERS
   private renderElements() {
+    const squares_size =this.gameboard.getSquaresSize()
+
     this.canvas_drawer.resetCanvas()
-    this.canvas_drawer.draw({
-      shape: 'square',
-      color: '#00DD00',
-      size: {
-        x: this.gameboard.getSquaresSize(),
-        y: this.gameboard.getSquaresSize(),
-      },
-      start_position: this.sneak.getHeadPosition()
-    })
+    this.canvas_drawer.draw_rect('#00DD00', squares_size, this.sneak.getHeadPosition())
+
     const snake_positons = this.sneak.getFullposition()
     snake_positons.shift()
     snake_positons.map((value) => {
-      this.canvas_drawer.draw({
-        shape: 'square',
-        color: '#00FF00',
-        size: {
-          x: this.gameboard.getSquaresSize(),
-          y: this.gameboard.getSquaresSize(),
-        },
-        start_position: {
-          x: value.x,
-          y: value.y
-        }
-      })
+      this.canvas_drawer.draw_rect('#00FF00', squares_size, { x: value.x, y: value.y })
     })
-    this.canvas_drawer.draw({
-      shape: 'square',
-      color: '#FF0000',
-      size: {
-        x: this.gameboard.getSquaresSize(),
-        y: this.gameboard.getSquaresSize(),
-      },
-      start_position: this.gameboard.convertSquareToPixel(this.apple.getPosition())
-    })
+
+    this.canvas_drawer.draw_rect('#FF0000', squares_size, this.gameboard.convertSquareToPixel(this.apple.getPosition()))
   }
 
   // INTERVAL

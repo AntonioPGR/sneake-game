@@ -1,20 +1,20 @@
 declare interface PropsSnake{
   step?: number
-  start_position?: TAxles[],
+  start_position?: TPositionPX[],
   direction?: TDirections,
 }
 
 declare interface PropsApple{
-  table_size: TBoardSize,
-  position?: TAxles,
-  invalid_start_positions?: TAxles[],
+  table_size: TLimitSize,
+  position?: TPositionPX,
+  invalid_start_positions?: TPositionPX[],
   square_size: number
 }
 
 declare interface PropsGameBoard{
   canvas: HTMLCanvasElement,
-  canvas_avaible_size: TAxles,
-  squares_schemas: TAxles
+  canvas_avaible_size: TPositionPX,
+  squares_schemas: TPositionPX
 }
 
 declare interface PropsGameController{

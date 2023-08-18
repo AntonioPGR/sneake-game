@@ -3,10 +3,10 @@ import { Apple } from "./apple"
 describe("Apple model", () => {
   const createApple = () => new Apple({
     table_size: {
-      max_x: 500,
-      min_x: 0,
-      max_y: 500,
-      min_y: 0
+      max_width: 500,
+      min_width: 0,
+      max_height: 500,
+      min_height: 0
     },
     square_size: 1
   })
@@ -24,10 +24,10 @@ describe("Apple model", () => {
   it("Should appear in another place when eaten", () => {
     const apple = new Apple({
       table_size: {
-        max_x: 0,
-        min_x: 0,
-        max_y: 2,
-        min_y: 0
+        max_width: 0,
+        min_width: 0,
+        max_height: 2,
+        min_height: 0
       },
       square_size: 1
     })
@@ -41,10 +41,10 @@ describe("Apple model", () => {
   it("Should not appear in sneak positon", () => {
     const apple = new Apple({
       table_size: {
-        max_x: 0,
-        min_x: 0,
-        max_y: 3,
-        min_y: 0
+        max_width: 0,
+        min_width: 0,
+        max_height: 3,
+        min_height: 0
       },
       invalid_start_positions: [{x:0, y:0}],
       square_size: 1

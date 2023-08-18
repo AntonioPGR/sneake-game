@@ -1,7 +1,7 @@
 import { Apple } from "models/apple/apple"
 
 export class Snake{
-  private position: TAxles[] = [{ x: 0, y: 0 }]
+  private position: TPositionPX[] = [{ x: 0, y: 0 }]
   private size: number = 1
   private direction: TDirections = 'up'
   private step: number = 1
@@ -16,7 +16,7 @@ export class Snake{
   }
 
   // STATUS
-  public isDead(max_position?:TAxles) {
+  public isDead(max_position?:TPositionPX) {
     const head_position = this.getHeadPosition()
     const position = this.getFullposition()
 
@@ -116,7 +116,7 @@ export class Snake{
   }
 
   // SETTERS
-  private setposition(new_coordinate: TAxles[]) {
+  private setposition(new_coordinate: TPositionPX[]) {
     this.position = new_coordinate
   }
 

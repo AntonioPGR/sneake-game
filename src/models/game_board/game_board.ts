@@ -1,8 +1,8 @@
 export class GameBoard{
 
-  private squares_schemas: TAxles;
+  private squares_schemas: TPositionPX;
   private squares_size: number
-  private canvas_size: TAxles;
+  private canvas_size: TPositionPX;
   private canvas : HTMLCanvasElement
 
   constructor({ canvas, canvas_avaible_size: canvas_avaible_size_in_px, squares_schemas }: PropsGameBoard) {
@@ -13,14 +13,14 @@ export class GameBoard{
     this.updateCanvasSize()
   }
 
-  private calculateSquaresSize(avaible_size:TAxles) : number {
+  private calculateSquaresSize(avaible_size:TPositionPX) : number {
     const minor_axle_size = avaible_size.x < avaible_size.y? avaible_size.x : avaible_size.y
     const minor_axle_squares = avaible_size.x < avaible_size.y ? this.squares_schemas.x : this.squares_schemas.y
 
     return Math.floor(minor_axle_size / minor_axle_squares)
   }
 
-  private calculateCanvasSize() :TAxles {
+  private calculateCanvasSize() :TPositionPX {
     return {
       x: this.squares_size * this.squares_schemas.x,
       y: this.squares_size * this.squares_schemas.y
@@ -36,14 +36,14 @@ export class GameBoard{
     return this.squares_size
   }
 
-  public convertSquareToPixel(square_positon: TAxles) :TAxles {
+  public convertSquareToPixel(square_positon: TPositionPX) :TPositionPX {
     return {
       x: this.squares_size * square_positon.x,
       y: this.squares_size * square_positon.y
     }
   }
 
-  public isOutside(positon: TAxles):Boolean{
+  public isOutside(positon: TPositionPX):Boolean{
     if (positon.x < 0 || positon.x > this.canvas_size.x) {
       return true
     }
@@ -53,7 +53,7 @@ export class GameBoard{
     return false
   }
 
-  public getCanvasSize() : TAxles {
+  public getCanvasSize() : TPositionPX {
     return this.canvas_size
   }
 

@@ -1,30 +1,26 @@
 export class CanvasDrawer{
 
   private canvas: HTMLCanvasElement
-  private context: CanvasRenderingContext2D
+  private ctx: CanvasRenderingContext2D
 
-  constructor({canvas}:PropsCanvasDrawer) {
+  constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas
-    this.context = canvas.getContext('2d')!
+    const ctx = canvas.getContext('2d')
+    if (!ctx) {
+      throw new Error(`Cannot get 2d context from ${this.canvas}`)
+    }
+    this.ctx = ctx
   }
 
   public resetCanvas() {
-    const ctx = this.context;
+    const ctx = this.ctx;
     ctx.clearRect(0, 0, this.canvas.height, this.canvas.width)
   }
-
-  public draw(draw_data: TDrawData) {
-    switch (draw_data.shape) {
-      case 'square':
-        this.draw_rect(draw_data)
-        break;
-    }
-  }
   
-  private draw_rect({color, size, start_position: start_position}:TDrawData) {
-    const ctx = this.context;
+  public draw_rect(color:string , side_size:number, position:TPositionPX) {
+    const ctx = this.ctx;
     ctx.fillStyle = color
-    ctx.fillRect(start_position.x, start_position.y, size.x, size.y)
+    ctx.fillRect(position.x, position.y, side_size, side_size)
   }
 
 }

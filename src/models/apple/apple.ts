@@ -1,6 +1,6 @@
 export class Apple{
-  private position: TAxles = {x:0, y:0}
-  private table_size: TBoardSize = { max_x: 1, min_x: 0, max_y: 0, min_y: 0 }
+  private position: TPositionPX = {x:0, y:0}
+  private table_size: TLimitSize = { max_width: 1, min_width: 0, max_height: 0, min_height: 0 }
   private square_size: number
   
   constructor({table_size, position, invalid_start_positions, square_size}:PropsApple) {
@@ -11,7 +11,7 @@ export class Apple{
   }
 
   // ACTIONS
-  public raffleNewPosition(invalid_positions?: TAxles[]) {
+  public raffleNewPosition(invalid_positions?: TPositionPX[]) {
     let new_position;
     if(!invalid_positions) invalid_positions = []
     do {
@@ -20,7 +20,7 @@ export class Apple{
     this.setPosition(new_position)
   }
 
-  public getPositionInPx(): TAxles {
+  public getPositionInPx(): TPositionPX {
     return {
       x: this.getPosition().x * this.square_size,
       y: this.getPosition().y * this.square_size
@@ -29,14 +29,14 @@ export class Apple{
 
   private generateNewPosition() {
     const table = this.getTableSize()
-    const new_position : TAxles = {
-      x: Math.floor( Math.random() * (table.max_x - table.min_x)) + table.min_x,
-      y: Math.floor( Math.random() * (table.max_y - table.min_y)) + table.min_y,
+    const new_position : TPositionPX = {
+      x: Math.floor( Math.random() * (table.max_width - table.min_width)) + table.min_width,
+      y: Math.floor( Math.random() * (table.max_height - table.min_height)) + table.min_height,
     } 
     return new_position;
   }
 
-  private isPositionValid(position: TAxles, invalid_positions?: TAxles[]) {
+  private isPositionValid(position: TPositionPX, invalid_positions?: TPositionPX[]) {
     const current_positon = this.getPosition()
     if (position.x === current_positon.x && position.y === current_positon.y) {
       return false
@@ -49,11 +49,11 @@ export class Apple{
   }
 
   // SETTERS
-  private setTableSize(table_size:TBoardSize) {
+  private setTableSize(table_size:TLimitSize) {
     this.table_size = table_size
   }
 
-  private setPosition(position:TAxles) {
+  private setPosition(position:TPositionPX) {
     this.position = position
   }
 

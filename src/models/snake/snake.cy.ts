@@ -7,7 +7,7 @@ describe("Snake Model", () => {
   const createSneak = () => {
     const step: number = 1
     const direction: TDirections = 'right'
-    const start_position: TAxles[] = [{
+    const start_position: TPositionPX[] = [{
       x: 5,
       y: 5
     }]
@@ -99,10 +99,10 @@ describe("Snake Model", () => {
     })
     const apple = new Apple({
       table_size: {
-        max_x: 0,
-        min_x: 0,
-        max_y: 2,
-        min_y: 0
+        max_width: 0,
+        min_width: 0,
+        max_height: 2,
+        min_height: 0
       },
       square_size: 1
     })
@@ -117,10 +117,10 @@ describe("Snake Model", () => {
     })
     const apple = new Apple({
       table_size: {
-        max_x: 0,
-        min_x: 0,
-        max_y: 2,
-        min_y: 0
+        max_width: 0,
+        min_width: 0,
+        max_height: 2,
+        min_height: 0
       },
       square_size: 1
     })
