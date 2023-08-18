@@ -27,3 +27,7 @@ declare type TDrawData = {
   color: string,
   start_position: TPositionPX
 }
+
+declare type TVoidFunction = () => void
+
+declare type miliseconds = number

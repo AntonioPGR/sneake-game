@@ -1,16 +1,16 @@
 import { Apple } from "models/apple/apple";
 import { CanvasDrawer } from "models/canvas_drawer/canvas_drawer";
 import { GameBoard } from "models/game_board/game_board"
+import { Loop } from "models/loop/loop";
 import { Snake } from "models/snake/snake";
 
 export class GameController{
   private canvas: HTMLCanvasElement;
   private gameboard: GameBoard
-  private update_interval: NodeJS.Timer | undefined
   private sneak: Snake
   private apple: Apple
-  private score: number = 0
   private canvas_drawer: CanvasDrawer
+  private loop: Loop
 
   constructor({ canvas_id }: PropsGameController) {
     const canvas_size = 6 
@@ -36,12 +36,13 @@ export class GameController{
       invalid_start_positions: this.sneak.getFullposition(),
       square_size: this.gameboard.getSquaresSize()
     })
+    this.loop = new Loop(() => this.update(), 500)
   }
 
   public startGame() {
-    this.resetGameInfo()
     this.renderElements()
-    this.createUpdateInterval()
+    this.loop.startLoop()
+    // this.createUpdateInterval()
   }
   
   public changeSneakDirection(direction: TDirections) {
@@ -61,21 +62,6 @@ export class GameController{
     }
   }
 
-  // RESETS
-  private resetGameInfo() {
-    this.clearUpdateInterval()
-    this.resetScore()
-  }
-
-  private clearUpdateInterval() {
-    clearTimeout(this.update_interval);
-    this.update_interval = undefined
-  }
-
-  private resetScore() {
-    this.score = 0
-  }
-
   // RENDERS
   private renderElements() {
     const squares_size =this.gameboard.getSquaresSize()
@@ -92,14 +78,6 @@ export class GameController{
     this.canvas_drawer.draw_rect('#FF0000', squares_size, this.gameboard.convertSquareToPixel(this.apple.getPosition()))
   }
 
-  // INTERVAL
-  private createUpdateInterval() {
-    this.update()
-    this.update_interval = setInterval(() => {
-      this.update()
-    }, 700)
-  }
-
   private update() {
     this.sneak.move()
     if (this.sneak.isEatable(this.apple)){
@@ -108,7 +86,7 @@ export class GameController{
     }
     if (this.sneak.isDead({ x: this.gameboard.getSquaresSize() * 5, y: this.gameboard.getSquaresSize() * 5 })) {
       this.canvas_drawer.resetCanvas()
-      clearInterval(this.update_interval);
+      this.loop.stopLoop()
       return
     }
     this.renderElements()
