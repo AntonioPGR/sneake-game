@@ -12,7 +12,7 @@ export const App = () => {
   >();
 
   useEffect(() => {
-    setGameController(new GameController({ canvas_id: canvas_id }));
+    setGameController(new GameController(canvas_id));
   }, []);
 
   return (

@@ -1,44 +1,35 @@
 export class Apple{
-  private position: TPositionPX = {x:0, y:0}
-  private table_size: TLimitSize = { max_width: 1, min_width: 0, max_height: 0, min_height: 0 }
-  private square_size: number
+  private position: TPositionSQ
+  private limit_positions: TLimitSizeSQ
   
-  constructor({table_size, position, invalid_start_positions, square_size}:PropsApple) {
-    this.setTableSize(table_size)
-    if (position) { this.setPosition(position) }
-    else { this.raffleNewPosition(invalid_start_positions) }
-    this.square_size = square_size
-  }
-
-  // ACTIONS
-  public raffleNewPosition(invalid_positions?: TPositionPX[]) {
-    let new_position;
-    if(!invalid_positions) invalid_positions = []
-    do {
-      new_position = this.generateNewPosition()
-    } while(!this.isPositionValid(new_position, invalid_positions))
-    this.setPosition(new_position)
-  }
-
-  public getPositionInPx(): TPositionPX {
-    return {
-      x: this.getPosition().x * this.square_size,
-      y: this.getPosition().y * this.square_size
+  constructor(limit_positions:TLimitSizeSQ, invalid_start_positions?:TPositionSQ[]) {
+    this.limit_positions = {
+      ...limit_positions,
+      max_height: limit_positions.max_height - 1,
+      max_width: limit_positions.max_width - 1,
     }
+    this.position = this.generateNewPosition(invalid_start_positions)
   }
 
-  private generateNewPosition() {
-    const table = this.getTableSize()
-    const new_position : TPositionPX = {
-      x: Math.floor( Math.random() * (table.max_width - table.min_width)) + table.min_width,
-      y: Math.floor( Math.random() * (table.max_height - table.min_height)) + table.min_height,
-    } 
+  public changeApplePosition(invalid_positions?:TPositionSQ[]) {
+    this.position = this.generateNewPosition(invalid_positions)
+  }
+
+  private generateNewPosition(invalid_positions?:TPositionSQ[]):TPositionSQ {
+    const limit_positions = this.limit_positions
+    let new_position;
+    do {
+      new_position = {
+        x: Math.floor( Math.random() * (limit_positions.max_width + 1 - limit_positions.min_width)) + limit_positions.min_width,
+        y: Math.floor( Math.random() * (limit_positions.max_height + 1 - limit_positions.min_height)) + limit_positions.min_height,
+      } 
+    } while(!this.isPositionValid(new_position, invalid_positions))
     return new_position;
   }
 
-  private isPositionValid(position: TPositionPX, invalid_positions?: TPositionPX[]) {
-    const current_positon = this.getPosition()
-    if (position.x === current_positon.x && position.y === current_positon.y) {
+  private isPositionValid(position: TPositionSQ, invalid_positions?: TPositionSQ[]) {
+    const current_positon = this.position
+    if (position.x === current_positon?.x && position.y === current_positon?.y) {
       return false
     }
     if (invalid_positions) {
@@ -46,20 +37,6 @@ export class Apple{
       if (equals) return false
     }
     return true
-  }
-
-  // SETTERS
-  private setTableSize(table_size:TLimitSize) {
-    this.table_size = table_size
-  }
-
-  private setPosition(position:TPositionPX) {
-    this.position = position
-  }
-
-  // GETTERS
-  public getTableSize() {
-    return this.table_size
   }
 
   public getPosition() {

@@ -1,4 +1,4 @@
-import { Loop } from "./loop"
+import { Loop } from "models/loop/loop"
 
 describe("Loop model", () => {
   

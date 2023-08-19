@@ -30,5 +30,5 @@
     "cypress",
     "**/*.ts",
     "**/*.d.ts"
-  ]
+, "src/models/game_board/game_board.cy.tsx"  ]
 }

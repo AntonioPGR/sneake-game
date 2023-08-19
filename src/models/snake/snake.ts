@@ -1,73 +1,43 @@
-import { Apple } from "models/apple/apple"
-
 export class Snake{
-  private position: TPositionPX[] = [{ x: 0, y: 0 }]
-  private size: number = 1
-  private direction: TDirections = 'up'
-  private step: number = 1
+  private positions: TPositionSQ[] 
+  private direction: TDirections
+  private length: TLengthSQ 
+  private step: TStepsSQ 
 
-  constructor({ step, start_position, direction}: PropsSnake) {
-    if(step) this.setStep(step)
-    if (start_position) {
-      this.setposition(start_position)
-      this.setSize(start_position.length)
-    }
-    if(direction) this.setDirection(direction)
+  constructor(step: TStepsSQ, direction:TDirections, initial_position:TPositionSQ[]) {
+    this.step = step
+    this.direction = direction
+    this.positions = initial_position
+    this.length = initial_position.length
   }
 
   // STATUS
-  public isDead(max_position?:TPositionPX) {
+  public isCollidingWithItself() {
     const head_position = this.getHeadPosition()
-    const position = this.getFullposition()
+    const positions = this.positions
+    const equal_positions = positions.filter((value) => value.x === head_position.x && value.y === head_position.y)
 
-    if (position.length > 1) {
-      const equal_position = position.filter((value) => value.x === head_position.x && value.y === head_position.y)
-      console.log(equal_position)
-      if (equal_position.length > 1) {
-        return true
-      }
-    }
-
-    if (head_position.x < 0 || head_position.y < 0) {
+    if (equal_positions.length > 1) {
       return true
     }
-    if (max_position && (head_position.x > max_position.x || head_position.y > max_position.y)) {
-      return true
-    }
+
     return false
   }
 
-  public isEatable(apple: Apple) {
-    const apple_position = apple.getPositionInPx()
-    const head_snake_position = this.getHeadPosition()
-    if (apple_position.x === head_snake_position.x && apple_position.y === head_snake_position.y) {
-      return true
-    }
-    return false
-  }
-
-  public tryToEat(apple: Apple) {
-    if (!this.isEatable(apple)) {
-      return false
-    }
-    apple.raffleNewPosition(this.getFullposition())
-    this.growUp()
-    return true
-  }
-
+  // MOVEMENT
   public move() {
     const calculated_position = this.calculateNewPosition()
-    const new_position = [calculated_position, ...this.getFullposition()]
-    while (new_position.length > this.size) {
-      new_position.pop()
+    const new_positions = [calculated_position, ...this.positions]
+    while (new_positions.length > this.length) {
+      new_positions.pop()
     }
-    this.setposition(new_position)
+    this.positions = new_positions
   }
 
   private calculateNewPosition() {
     const head_position = this.getHeadPosition()
-    const direction = this.getDirection()
-    const step = this.getStep()
+    const direction = this.direction
+    const step = this.step
     let new_position = {
       y: head_position.y,
       x: head_position.x
@@ -88,73 +58,57 @@ export class Snake{
     }
     return new_position
   }
+  
+  // DIRECTION
+  public changeDirectionTo(direction: TDirections) {
+    if (!this.isNewDirectionValid(direction)) return
+    
+    switch (direction) {
+      case "up":
+        this.direction = 'up'
+        break;
+      case "down":
+        this.direction = 'down'
+        break;
+      case "left":
+        this.direction = 'left'
+        break;
+      case "right":
+        this.direction = 'right'
+        break;
+    }
+  }
 
+  private isNewDirectionValid(new_direction: TDirections) {
+    switch (new_direction) {
+      case "up":
+        return this.direction !== 'down'
+      case "down":
+        return this.direction !== 'up'
+      case "left":
+        return this.direction !== 'right'
+      case "right":
+        return this.direction !== 'left'
+    }
+  }
+
+  // SIZE
   public growUp() {
-    this.size += 1
+    this.length += 1
   }
 
   // GETTERS
-  public getStep() {
-    return this.step
-  }
-
-  public getSize() {
-    return this.size
-  }
-
-  public getDirection() {
-    return this.direction;
-  }
-
   public getHeadPosition() {
-    const full = this.getFullposition()
+    const full = this.positions
     return full[0]
   }
   
-  public getFullposition() {
-    return [...this.position]
+  public getPositions() {
+    return [...this.positions]
   }
 
-  // SETTERS
-  private setposition(new_coordinate: TPositionPX[]) {
-    this.position = new_coordinate
-  }
-
-  private setDirection(new_direction: TDirections) {
-    this.direction = new_direction
-  }
-
-  private setStep(new_step: number) {
-    this.step = new_step
-  }
-
-  private setSize(new_size: number) {
-    this.size = new_size
-  }
-
-  // DIRECTIONS CHANGERS
-  public changeDirectionToUp() {
-    if (this.getDirection() !== 'down') {
-      this.direction = 'up'
-    }
-  }
-
-  public changeDirectionToDown() {
-    if (this.getDirection() !== 'up') {
-      this.direction = 'down'
-    }
-  }
-
-  public changeDirectionToLeft() {
-    if (this.getDirection() !== 'right') {
-      this.direction = 'left'
-    }
-  }
-
-  public changeDirectionToRight() {
-    if (this.getDirection() !== 'left') {
-      this.direction = 'right'
-    }
+  public getDirection() {
+    return this.direction
   }
 
 }

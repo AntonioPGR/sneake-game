@@ -12,12 +12,14 @@ declare type TSizePX = {
 
 declare type TSizeSQ = TSizePX
 
-declare type TLimitSize = {
+declare type TLimitSizeSQ = {
   max_width: number
   min_width: number
   max_height: number
   min_height: number
 }
+
+declare type TLimitSizePX = TLimitSizeSQ
 
 declare type TDirections = 'up' | 'down' | 'left' | 'right'
 
@@ -30,4 +32,8 @@ declare type TDrawData = {
 
 declare type TVoidFunction = () => void
 
-declare type miliseconds = number
+declare type TMiliseconds = number
+
+declare type TStepsSQ = number
+
+declare type TLengthSQ = number

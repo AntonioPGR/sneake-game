@@ -1,10 +1,10 @@
 export class Loop{
 
   private callback: TVoidFunction
-  private loop_time: miliseconds
+  private loop_time: TMiliseconds
   private interval: NodeJS.Timer | undefined
 
-  constructor(callback: TVoidFunction, loop_time: miliseconds) {
+  constructor(callback: TVoidFunction, loop_time: TMiliseconds) {
     this.callback = callback
     this.loop_time = loop_time
   }
