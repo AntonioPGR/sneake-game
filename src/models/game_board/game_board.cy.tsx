@@ -6,17 +6,11 @@ describe('Board model', () => {
     return document.querySelector(`#${canva_id}`) as HTMLCanvasElement;
   };
   const createGameBoard = () => {
-    return new GameBoard({
-      canvas: getCanvas(),
-      canvas_avaible_size: {
-        x: 288,
-        y: 312,
-      },
-      squares_schemas: {
-        x: 12,
-        y: 12,
-      },
-    });
+    return new GameBoard(
+      getCanvas(),
+      { width: 288, height: 312 },
+      { x: 12, y: 12 },
+    );
   };
 
   beforeEach(() => {

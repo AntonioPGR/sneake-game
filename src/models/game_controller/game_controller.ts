@@ -20,7 +20,7 @@ export class GameController{
     }
     this.canvas = canvas
 
-    this.gameboard = new GameBoard({ canvas: this.canvas, canvas_avaible_size: { x: 450, y: 450 }, squares_schemas: {x:canvas_size, y:canvas_size} })
+    this.gameboard = new GameBoard(this.canvas, { width: 450, height: 450 }, {x:canvas_size, y:canvas_size} )
     this.canvas_drawer = new CanvasDrawer(canvas)
     this.sneak = new Snake(this.gameboard.getSquaresSize(), 'up', [{ x: Math.floor(this.gameboard.getCanvasSize().x/2), y:  Math.floor(this.gameboard.getCanvasSize().y/2) }])
     this.apple = new Apple({max_width: canvas_size, max_height: canvas_size, min_width: 0, min_height: 0}, this.sneak.getPositions())
