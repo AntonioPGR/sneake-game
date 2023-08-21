@@ -3,7 +3,7 @@ import { Snake } from "models/snake/snake"
 
 describe("Snake Model", () => {
   
-  const createSneak = () => {
+  const createSnake = () => {
     const step: number = 1
     const direction: TDirections = 'right'
     const start_position: TPositionSQ[] = [{
@@ -13,21 +13,21 @@ describe("Snake Model", () => {
     return new Snake(step, direction, start_position)
   }
 
-  it("saves the sneak info correctly", () => {
-    const snake = createSneak()
+  it("saves the snake info correctly", () => {
+    const snake = createSnake()
     const current_position = snake.getHeadPosition()
     expect(current_position.x).to.equal(5)
     expect(current_position.y).to.equal(5)
   })
 
   it("changes the direction", () => {
-    const snake = createSneak()
+    const snake = createSnake()
     snake.changeDirectionTo('up')
     expect(snake.getDirection()).to.equal('up')
   })
 
   it("moves correctly", () => {
-    const snake = createSneak()
+    const snake = createSnake()
 
     snake.changeDirectionTo('down')
     snake.move()
@@ -41,7 +41,7 @@ describe("Snake Model", () => {
   })
 
   it("doesn't changes the direction to oposit side in y", () => {
-    const snake = createSneak()
+    const snake = createSnake()
 
     snake.changeDirectionTo('down')
     snake.move()
@@ -55,7 +55,7 @@ describe("Snake Model", () => {
   })
 
   it("doesn't changes the direction to oposit side in x", () => {
-    const snake = createSneak()
+    const snake = createSnake()
 
     snake.move()
     snake.changeDirectionTo('right')
@@ -68,14 +68,14 @@ describe("Snake Model", () => {
     expect(snake.getHeadPosition().y).to.equal(5)
   })
 
-  it("saves the position corresponding to sneak size", () => {
-    const snake = createSneak()
+  it("saves the position corresponding to snake size", () => {
+    const snake = createSnake()
     snake.move()
     expect(snake.getPositions().length).to.equal(1)
   })
 
   it("grows up", () => {
-    const snake = createSneak()
+    const snake = createSnake()
     snake.growUp()
     snake.move()
     expect(snake.getPositions().length).to.equal(2)

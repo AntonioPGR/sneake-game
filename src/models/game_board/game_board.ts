@@ -46,10 +46,10 @@ export class GameBoard{
   }
 
   public isOutside(positon: TPositionPX):boolean{
-    if (positon.x < 0 || positon.x > this.size_px.x) {
+    if (positon.x < 0 || positon.x > this.size_px.x - 1) {
       return true
     }
-    if (positon.y < 0 || positon.y > this.size_px.y) {
+    if (positon.y < 0 || positon.y > this.size_px.y - 1) {
       return true
     }
     return false
@@ -57,6 +57,13 @@ export class GameBoard{
 
   public getCanvasSize() : TPositionPX {
     return this.size_px
+  }
+
+  public getCanvasSquareSize(): TPositionSQ {
+    return {
+      x: this.squares_quantity.x,
+      y: this.squares_quantity.y
+    }
   }
 
 }

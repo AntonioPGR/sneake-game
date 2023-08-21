@@ -43,4 +43,10 @@ export class Apple{
     return this.position
   }
 
+  public draw(callback: TCallbackDraw) {
+    const color = '#F26B5E  '
+    const position = this.position
+    callback(color, position)
+  }
+
 }

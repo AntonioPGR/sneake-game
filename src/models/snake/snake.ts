@@ -14,7 +14,7 @@ export class Snake{
   // STATUS
   public isCollidingWithItself() {
     const head_position = this.getHeadPosition()
-    const positions = this.positions
+    const positions = this.getPositions()
     const equal_positions = positions.filter((value) => value.x === head_position.x && value.y === head_position.y)
 
     if (equal_positions.length > 1) {
@@ -26,57 +26,41 @@ export class Snake{
 
   // MOVEMENT
   public move() {
-    const calculated_position = this.calculateNewPosition()
-    const new_positions = [calculated_position, ...this.positions]
+    const new_head_positon = this.calculateNewPosition()
+    const current_positions = this.getPositions()
+    const new_positions = [new_head_positon, ...current_positions]
     while (new_positions.length > this.length) {
       new_positions.pop()
     }
     this.positions = new_positions
   }
 
-  private calculateNewPosition() {
+  private calculateNewPosition() :TPositionSQ {
     const head_position = this.getHeadPosition()
-    const direction = this.direction
-    const step = this.step
-    let new_position = {
-      y: head_position.y,
-      x: head_position.x
-    };
+    const direction = this.getDirection()
+    const step = this.getStep()
+    let new_head_position = { ...head_position };
     switch (direction) {
-      case 'up':
-        new_position!.y = head_position.y - step;
+      case "up":
+        new_head_position.y = head_position.y - step
         break;
       case "down":
-        new_position!.y = head_position.y + step;
+        new_head_position.y = head_position.y + step
         break;
       case "left":
-        new_position!.x = head_position.x - step;
+        new_head_position.x = head_position.x - step
         break;
       case "right":
-        new_position!.x = head_position.x + step;
+        new_head_position.x = head_position.x + step
         break;
     }
-    return new_position
+    return new_head_position
   }
   
   // DIRECTION
   public changeDirectionTo(direction: TDirections) {
     if (!this.isNewDirectionValid(direction)) return
-    
-    switch (direction) {
-      case "up":
-        this.direction = 'up'
-        break;
-      case "down":
-        this.direction = 'down'
-        break;
-      case "left":
-        this.direction = 'left'
-        break;
-      case "right":
-        this.direction = 'right'
-        break;
-    }
+    this.direction = direction
   }
 
   private isNewDirectionValid(new_direction: TDirections) {
@@ -99,16 +83,43 @@ export class Snake{
 
   // GETTERS
   public getHeadPosition() {
-    const full = this.positions
+    const full = this.getPositions()
     return full[0]
+  }
+
+  public getBodyPositions() {
+    const positions = this.getPositions()
+    if (positions.length <= 1) {
+      return []
+    }
+    const body_positons = positions
+    body_positons.shift()
+    return body_positons
   }
   
   public getPositions() {
     return [...this.positions]
   }
 
-  public getDirection() {
+  public getDirection() : TDirections {
     return this.direction
+  }
+
+  public getStep() : number {
+    return Number(this.step)
+  }
+
+  // DRAW
+  public draw(callback: TCallbackDraw) {
+    const color_head = '#025E73'
+    const position_head = this.getHeadPosition()
+    callback(color_head, position_head)
+
+    const color_body = '#026873'
+    const body_positons = this.getBodyPositions()
+    body_positons.map((position) => {
+      callback(color_body, position);
+    })
   }
 
 }

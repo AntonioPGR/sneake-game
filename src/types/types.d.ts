@@ -37,3 +37,5 @@ declare type TMiliseconds = number
 declare type TStepsSQ = number
 
 declare type TLengthSQ = number
+
+declare type TCallbackDraw = (color: string, position: TPositionSQ) => void
