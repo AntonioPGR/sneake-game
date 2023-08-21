@@ -66,6 +66,7 @@ export class GameController{
   
   public changeSnakeDirection(direction: TDirections) {
     this.snake.changeDirectionTo(direction)
+  if(!this.loop.isRunning()) this.startGame()
   }
 
   // UPDATE
