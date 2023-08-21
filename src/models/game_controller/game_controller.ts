@@ -5,35 +5,61 @@ import { Loop } from "models/loop/loop";
 import { Snake } from "models/snake/snake";
 
 export class GameController{
-  private canvas: HTMLCanvasElement;
-  private gameboard: GameBoard
-  private snake: Snake
-  private apple: Apple
-  private canvas_drawer: CanvasDrawer
-  private loop: Loop
-  private score: number
+  private canvas!: HTMLCanvasElement;
+  private gameboard!: GameBoard;
+  private snake!: Snake
+  private apple!: Apple
+  private canvas_drawer!: CanvasDrawer
+  private loop!: Loop
+  private score!: number
 
   constructor(canvas_id:string) {
     const canvas_size = 12 
-    const canvas = document.querySelector(`#${canvas_id}`) as HTMLCanvasElement | null;
-    if (canvas === null) {
-      throw new Error("canvas_id field can't reffers to a null object")
-    }
-    this.canvas = canvas
-
-    this.gameboard = new GameBoard(this.canvas, { width: 450, height: 450 }, { x: canvas_size, y: canvas_size })
-    const square_legth = this.gameboard.getSquaresSize()
-    this.canvas_drawer = new CanvasDrawer(canvas, square_legth)
-    const head_start_position = { x: Math.floor(this.gameboard.getCanvasSquareSize().x / 2), y: Math.floor(this.gameboard.getCanvasSquareSize().y / 2) }
-    const body_start_positions = [{ x: head_start_position.x, y: head_start_position.y + 1 }, { x: head_start_position.x, y: head_start_position.y + 2 }]
-    this.snake = new Snake(1, 'up', [head_start_position, ...body_start_positions])
-    this.apple = new Apple({max_width: canvas_size, max_height: canvas_size, min_width: 0, min_height: 0}, this.snake.getPositions())
-    this.loop = new Loop(() => this.update(), 500)
-    this.score = 0
+    this.createGameHandlers(canvas_id, canvas_size)
+    this.createGameCharacters()
+    this.createGameInfo()
     this.renderElements()
   }
 
+  private createGameHandlers(canvas_id:string, canvas_squares_amount:number) {
+    const canvas = document.querySelector(`#${canvas_id}`) as HTMLCanvasElement | null;
+    const game_root = document.querySelector('#game_root') as HTMLDivElement | null
+    if (canvas === null || game_root === null) {
+      throw new Error("canvas_id field can't reffers to a null object")
+    }
+
+    this.canvas = canvas
+    this.gameboard = new GameBoard(this.canvas, { width: game_root.clientWidth, height: game_root.clientHeight }, { x:  canvas_squares_amount, y:  canvas_squares_amount })
+    this.canvas_drawer = new CanvasDrawer(canvas, this.gameboard.getSquaresSize())
+  }
+
+  private createGameCharacters() {
+    const table_size_in_sq = this.gameboard.getCanvasSquareSize()
+    const head_start_position = {
+      x: Math.floor(table_size_in_sq.x / 2),
+      y: Math.floor(table_size_in_sq.y / 2)
+    }
+    const body_start_positions = [{
+      x: head_start_position.x,
+      y: head_start_position.y + 1
+    }, {
+      x: head_start_position.x,
+      y: head_start_position.y + 2
+    }]
+
+    this.snake = new Snake(1, 'up', [head_start_position, ...body_start_positions])
+    this.apple = new Apple({max_width: table_size_in_sq.x, max_height: table_size_in_sq.y, min_width: 0, min_height: 0}, this.snake.getPositions())
+  }
+
+  private createGameInfo() {
+    this.loop = new Loop(() => this.update(), 450)
+    this.score = 0
+  }
+
   public startGame() {
+    if (this.loop.isRunning()) {
+      this.resetGameInfo()
+    }
     this.renderElements()
     this.loop.startLoop()
   }
@@ -63,9 +89,15 @@ export class GameController{
   }
 
   private die() {
-    this.loop.stopLoop()
     this.resetGameBoard()
     this.canvas_drawer.drawMessage(`Score: ${this.score}`, { x: 100, y: 100 }, 54)
+    this.resetGameInfo()
+  }
+  
+  private resetGameInfo() {
+    this.loop.stopLoop()
+    this.createGameCharacters()
+    this.createGameInfo()
   }
 
   private snakeCanEat() {

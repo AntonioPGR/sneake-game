@@ -1,7 +1,7 @@
 import { GameController } from 'models/game_controller/game_controller';
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { state_game_controller } from 'states/game_controller.recoil';
+import { state_game_controller } from 'states/game_controller';
 
 export const Board = () => {
   const canvas_id = 'gameboard';

@@ -25,4 +25,8 @@ export class Loop{
     this.interval = undefined
   }
 
+  public isRunning() {
+    return this.interval? true : false
+  }
+
 }

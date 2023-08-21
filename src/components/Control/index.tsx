@@ -3,7 +3,7 @@ import UpArrow from 'images/up_arrow.svg';
 import LeftArrow from 'images/left_arrow.svg';
 import RightArrow from 'images/right_arrow.svg';
 import DownArrow from 'images/down_arrow.svg';
-import { state_game_controller } from 'states/game_controller.recoil';
+import { state_game_controller } from 'states/game_controller';
 
 export const Control = () => {
   const game_controller = useRecoilValue(state_game_controller);
