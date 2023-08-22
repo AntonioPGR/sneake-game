@@ -35,9 +35,9 @@ export class Snake{
     this.positions = new_positions
   }
 
-  private calculateNewPosition() :TPositionSQ {
+  private calculateNewPosition(setup_direction?:TDirections) :TPositionSQ {
     const head_position = this.getHeadPosition()
-    const direction = this.getDirection()
+    const direction = setup_direction ?? this.getDirection()
     const step = this.getStep()
     let new_head_position = { ...head_position };
     switch (direction) {
@@ -64,6 +64,9 @@ export class Snake{
   }
 
   private isNewDirectionValid(new_direction: TDirections) {
+    if (this.calculateNewPosition(new_direction) === this.getPositions()[1]) {
+      return
+    }
     switch (new_direction) {
       case "up":
         return this.direction !== 'down'

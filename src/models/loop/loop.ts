@@ -12,7 +12,6 @@ export class Loop{
   public startLoop() {
     if (this.interval) throw new Error("You need to stop an loop before starting other! [Loop - line 12]");
 
-    this.callback()
     this.interval = setInterval(() => {
       this.callback()
     }, this.loop_time)
@@ -27,6 +26,12 @@ export class Loop{
 
   public isRunning() {
     return this.interval? true : false
+  }
+
+  public decreaseLoopTime(time:number) {
+    this.loop_time -= time
+    this.stopLoop()
+    this.startLoop()
   }
 
 }

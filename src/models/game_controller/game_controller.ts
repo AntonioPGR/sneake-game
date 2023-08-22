@@ -62,11 +62,12 @@ export class GameController{
     }
     this.renderElements()
     this.loop.startLoop()
+    this.update()
   }
   
   public changeSnakeDirection(direction: TDirections) {
     this.snake.changeDirectionTo(direction)
-  if(!this.loop.isRunning()) this.startGame()
+    if (!this.loop.isRunning()) this.startGame()
   }
 
   // UPDATE
@@ -111,6 +112,7 @@ export class GameController{
     this.snake.growUp()
     this.apple.changeApplePosition(this.snake.getPositions())
     this.growScore()
+    this.loop.decreaseLoopTime(this.score)
   }
 
   private growScore() {
