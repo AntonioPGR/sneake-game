@@ -64,7 +64,9 @@ export class Snake{
   }
 
   private isNewDirectionValid(new_direction: TDirections) {
-    if (this.calculateNewPosition(new_direction) === this.getPositions()[1]) {
+    const new_position = this.calculateNewPosition(new_direction)
+    const before_head_position = this.getPositions()[1]
+    if (new_position.x === before_head_position.x && new_position.y === before_head_position.y) {
       return
     }
     switch (new_direction) {
